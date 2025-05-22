@@ -1,5 +1,6 @@
 package ar.com.mylback;
 
+import ar.com.mylback.auth.FirebaseInitializer;
 import ar.com.mylback.dal.entities.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +10,8 @@ import java.util.UUID;
 
 public class Test {
     public static void main(String[] args) {
+        // Inicializo Firebase
+        FirebaseInitializer.init();
         System.out.println(Runtime.version());
         SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
