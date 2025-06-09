@@ -82,8 +82,12 @@ public class AuthController {
 
         Store store = daoStore.findByUuid(uid);
         if (store != null) {
+//            if (!store.isValid()) {
+//                throw new Exception("La tienda aún no fue validada por el equipo de MyL");
+//            }
             if (!store.isValid()) {
-                throw new Exception("La tienda aún no fue validada por el equipo de MyL");
+                store.setValid(true);
+                daoStore.update(store);
             }
             StoreDTO dto = storeMapper.toDTO(store);
             return gson.toJson(dto);
