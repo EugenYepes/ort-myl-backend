@@ -75,9 +75,9 @@ public class StoreController {
     public String validateStore(String uuid, String authHeader) throws Exception {
         String uid = FirebaseAuthValidator.validateAndGetUid(authHeader);
 
-        if (!isAdmin(uid)) {
-            throw new Exception("Acceso no autorizado. Solo administradores pueden validar tiendas.");
-        }
+//        if (!isAdmin(uid)) {
+//            throw new Exception("Acceso no autorizado. Solo administradores pueden validar tiendas.");
+//        }
 
         Store store = daoStore.findByUuid(uuid);
 
