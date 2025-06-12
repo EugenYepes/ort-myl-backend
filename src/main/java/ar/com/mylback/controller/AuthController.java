@@ -131,4 +131,41 @@ public class AuthController {
             return new HttpResponse(400, gson.toJson(new ErrorTemplateDTO(400, "Error al eliminar cuenta", e.getMessage())));
         }
     }
+
+    public HttpResponse getFullUserInfo(String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return new HttpResponse(401, gson.toJson(new ErrorTemplateDTO(401, "Token inválido o ausente")));
+            }
+
+            String uid = firebaseAuthValidator.validateAndGetUid(authHeader);
+            UserRecord userRecord = firebaseAuthValidator.getUserByUID(uid);
+
+            if (!userRecord.isEmailVerified()) {
+                return new HttpResponse(403, gson.toJson(new ErrorTemplateDTO(403, "Debe verificar su correo electrónico antes de iniciar sesión")));
+            }
+
+            // Si encuentro un jugador devuelvo igualmente al front
+            // un STOREDTO para mostrar su información
+            Player player = daoPlayer.findByUid(uid);
+            if (player != null) {
+                StoreDTO dto = new StoreDTO();
+                dto.setUuid(player.getUuid());
+                dto.setEmail(player.getEmail());
+                dto.setName(player.getName());
+                return new HttpResponse(200, gson.toJson(dto));
+            }
+
+            Store store = daoStore.findByUid(uid);
+            if (store != null) {
+                StoreDTO dto = storeMapper.toDTO(store);
+                return new HttpResponse(200, gson.toJson(dto));
+            }
+
+            return new HttpResponse(404, gson.toJson(new ErrorTemplateDTO(404, "No se encontró una cuenta con ese UID")));
+        } catch (MylException e) {
+            return new HttpResponse(500, gson.toJson(new ErrorTemplateDTO(500, e.getMessage())));
+        }
+    }
+
 }
