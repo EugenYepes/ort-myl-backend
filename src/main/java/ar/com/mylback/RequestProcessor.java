@@ -210,7 +210,7 @@ public class RequestProcessor implements Runnable {
                     injectorProvider.getStoreMapper()).me(authHeader);
             sendResponse(exchange, response);
 
-        } else if (path.equals("/api/player/deck")) {
+        }  else if (path.equals("/api/player/deck")) {
 
             String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
             HttpResponse response = new DeckController(injectorProvider.getGson(),
@@ -285,6 +285,19 @@ public class RequestProcessor implements Runnable {
                     injectorProvider.getDaoDeck(),
                     injectorProvider.getDaoDeckCard(),
                     authHeader).addCardToDecks(Integer.parseInt(PathHelper.getLastPathSegment(path)), body);
+            sendResponse(exchange, response);
+
+        } else if (path.equals("/api/auth/full")) {
+            String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+
+            HttpResponse response = new AuthController(
+                    injectorProvider.getGson(),
+                    injectorProvider.getFirebaseAuthValidator(),
+                    injectorProvider.getDaoPlayer(),
+                    injectorProvider.getDaoStore(),
+                    injectorProvider.getUserMapper(),
+                    injectorProvider.getPlayerMapper(),
+                    injectorProvider.getStoreMapper()).getFullUserInfo(authHeader);
             sendResponse(exchange, response);
 
         } else {
