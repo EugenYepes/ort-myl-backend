@@ -2,6 +2,10 @@
 
 Este proyecto es un **backend Java** construido con **Hibernate**, **Firebase** y **AWS S3** para gestionar las cartas del juego **Mitos y Leyendas**. Permite almacenar, consultar y actualizar cartas, además de subir imágenes a un bucket en AWS S3, generando automáticamente su URL pública. La autenticación está integrada con **Firebase**, y la base de datos principal utilizada es **MySQL**.
 
+Utilizado desde la app de android: https://github.com/EugenYepes/ort-myl-app
+
+DTOs comunes en: https://github.com/EugenYepes/ort-myl-dtos
+
 ## 🚀 Tecnologías utilizadas
 
 - Java 17+
@@ -55,7 +59,7 @@ firebase.credentials.path=./serviceAccountKey.json
 hibernate.connection.url=jdbc:mysql://localhost:3306/myldb
 hibernate.connection.username=root
 hibernate.connection.password=tu_password
-
+```
 Desarrollado por:
 - Eugenio Yepes
 - Malena Raiteri
